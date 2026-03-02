@@ -1,9 +1,17 @@
 import { useParams, Link } from "react-router-dom";
 import { useContact } from "../hooks/use-contact.js";
+import { useComments } from "../hooks/useComments.js";
+import CommentList from "../components/CommentList.js";
+import { CommentForm } from "../components/CommentForm.js";
 
 export function ContactDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const { data: contact, isLoading, error } = useContact(Number(id));
+  const contactId = Number(id);
+  const { data: contact, isLoading, error } = useContact(contactId);
+  const {
+    data: comments,
+    isLoading: commentsLoading,
+  } = useComments(contactId);
 
   if (isLoading) {
     return <p className="text-gray-500">Loading contact...</p>;
@@ -42,6 +50,26 @@ export function ContactDetailPage() {
           <p className="text-sm text-gray-400">
             Created: {new Date(contact.createdAt).toLocaleDateString()}
           </p>
+        </div>
+      </div>
+
+      <div className="mt-8">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Comments</h3>
+
+        {commentsLoading ? (
+          <p className="text-gray-500 text-sm">Loading comments...</p>
+        ) : (
+          <>
+            <p className="text-sm text-gray-500 mb-3">
+              {comments.length} comment{comments.length !== 1 ? "s" : ""}
+            </p>
+            <CommentList comments={comments} />
+          </>
+        )}
+
+        <div className="mt-6 bg-white rounded-lg shadow-sm border p-6">
+          <h4 className="text-md font-semibold text-gray-900 mb-3">Add a Comment</h4>
+          <CommentForm contactId={contactId} />
         </div>
       </div>
     </div>
