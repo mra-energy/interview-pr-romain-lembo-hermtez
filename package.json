@@ -1,0 +1,11 @@
+{
+  "name": "pr-exercise",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --parallel dev",
+    "build": "pnpm --filter @pr-exercise/shared build && pnpm --filter @pr-exercise/server build && pnpm --filter @pr-exercise/client build"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["better-sqlite3", "esbuild"]
+  }
+}
