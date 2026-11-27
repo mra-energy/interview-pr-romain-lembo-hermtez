@@ -21,4 +21,4 @@ export {
   createCommentSchema,
   type Comment,
   type CreateComment,
-} from "./schemas/comment.js";
+} from "./schemas/comments.js";
